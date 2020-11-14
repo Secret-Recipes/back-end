@@ -1,0 +1,41 @@
+{
+  "name": "nodeauth-challenge",
+  "version": "1.0.0",
+  "description": "Authentication Sprint Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=testing JWT_SECRET=jacob123 jest --no-watchman",
+    "server": "cross-env NODE_ENV=development JWT_SECRET=jacob123 nodemon index.js",
+    "start": "node index.js",
+    "build": "cross-env JWT_SECRET=jacob123 node web-sprint-challenge-authentication-and-testing"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LambdaSchool/Sprint-Challenge-Authentication.git"
+  },
+  "keywords": [],
+  "author": "Lambda School",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LambdaSchool/Sprint-Challenge-Authentication/issues"
+  },
+  "homepage": "https://github.com/LambdaSchool/Sprint-Challenge-Authentication#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.12",
+    "knex-migrate": "^1.7.4",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.5",
+    "supertest": "^6.0.1"
+  }
+}
