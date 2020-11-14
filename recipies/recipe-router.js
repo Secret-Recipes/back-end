@@ -7,7 +7,7 @@ const { restrict } = require("../auth/authenticate-middleware")
 
 router.get("/", async (req, res, next) => {
 	try {
-		const recipies = await Recipies.getAll()
+		const recipies = await Recipies.getAllRecipies()
 		if(!recipies) {
 			res.status(404).json({message: "no list avalible"})
 		}
@@ -20,6 +20,19 @@ router.get("/", async (req, res, next) => {
 		//const fullRecipe = {...recipe, ...ingredients}
 		//res.status(200).json(await Recipies.getAll())
 		res.status(200).json(recipies)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.get("/:id", async (req, res, next) => {
+	try {
+		const recipe = await Recipies.findById(req.params.id)
+		if(!recipe) {
+			res.status(404).json({message: "no list avalible"})
+		}
+				
+		res.status(200).json(recipe)
 	} catch(err) {
 		next(err)
 	}

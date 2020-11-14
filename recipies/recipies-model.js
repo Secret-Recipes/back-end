@@ -1,5 +1,13 @@
 const db = require("../database/dbConfig")
 
+async function getAllRecipies() {
+	const recipies = await db("recipe as r")
+		.innerJoin("users as u", "u.id", "r.sourceId")
+		.select("r.id", "r.image", "r.title", "u.username as source")
+
+		return recipies;
+}
+
 async function getAll() {
 	// get all the recipies first
 	const recipies = await db("recipe as r")
@@ -41,8 +49,18 @@ async function findCategories(id) {
 		.select("name") // all we want is the name
 }
 
-function findById(id) {
-	return db("recipe").where({ id }).first()
+async function findById(id) {
+	const recipe = await db("recipe").where({ id }).first()
+	
+	// get all the ingredients for the recipe
+	const ingredients = await findIngredients(recipe.id)
+			recipe['ingredients'] = ingredients // add the ingredient to the recipe
+
+	// now find all the categories for each recipe using a helper function
+	const categories = await findCategories(recipe.id)
+	recipe['categories'] = categories // add the category to the recipe		
+	
+	return recipe 
 }
 
 function findByRecipiname(recipiename) {
@@ -127,14 +145,12 @@ function remove(id) {
 }
 
 module.exports = {
-	getAll,
 	findById,
 	findByRecipiname,
 	update,
 	remove,
-	findIngredients,
-	findCategories,
-	addNewRecipe
+	addNewRecipe,
+	getAllRecipies
 }
 
 //console.log(recipies)

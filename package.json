@@ -6,8 +6,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV=testing JWT_SECRET=jacob123 jest --no-watchman",
     "server": "cross-env NODE_ENV=development JWT_SECRET=jacob123 nodemon index.js",
-    "start": "node index.js",
-    "build": "cross-env JWT_SECRET=jacob123 node web-sprint-challenge-authentication-and-testing"
+    "start": "node index.js"
+    
   },
   "repository": {
     "type": "git",
