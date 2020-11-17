@@ -1,4 +1,4 @@
-module.exports = {
+/*module.exports = {
   development: {
     client: 'sqlite3',
     connection: { filename: './database/recipies.db3' },
@@ -30,44 +30,45 @@ module.exports = {
     },
    
   },
-};
+};*/
 
-//require('dotenv').config();
 
-/*module.exports = {
+module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connection: process.env.HEROKU_POSTGRESQL_IVORY_URL,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: './data/migrations',
-      tableName: 'knex_migrations',
+      directory: './database/migrations',
+      tableName: 'dbmigrations',
     },
     seeds: {
-      directory: './data/seeds',
+      directory: './database/seeds',
     },
-  }, testing: {
+  },  testing: {
     client: 'pg',
-    connection: process.env.DATABASE_URL, pool: {
+    connection: process.env.HEROKU_POSTGRESQL_IVORY_URL,
+        pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: './data/migrations',
-      tableName: 'knex_migrations',
+      directory: './database/migrations',
+      tableName: 'dbmigrations',
     },
   },
   production: {
     client: "pg",
-    connection: process.env.DATABASE_URL,
+    connection: process.env.HEROKU_POSTGRESQL_IVORY_URL,
     migrations: {
-      directory: "./data/migrations",
+      directory: "./database/migrations",
     },
     seeds: {
-      directory: "./data/seeds/",
+      directory: "./database/seeds",
     },
-    useNullAsDefault: true
-  },*/
+   
+  }, 
+}
