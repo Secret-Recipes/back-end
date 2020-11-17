@@ -21,14 +21,14 @@ module.exports = {
   },
   production: {
     client: "pg",
-    connection: process.env.DATABASE_URL,
+    connection: process.env.HEROKU_POSTGRESQL_IVORY_URL,
     migrations: {
-      directory: "../database/migrations",
+      directory: "./database/migrations",
     },
     seeds: {
       directory: "./database/seeds",
     },
-    useNullAsDefault: true
+   
   },
 };
 
