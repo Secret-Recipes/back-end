@@ -16,4 +16,9 @@ server.use(cookieParser())
 server.use('/api/auth', authRouter);
 server.use('/api/recipies', recipeRouter);
 
+server.get('/', (req, res) => {
+    res.json({message: `it's working!`});
+})
+
+
 module.exports = server;
