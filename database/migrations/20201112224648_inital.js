@@ -10,7 +10,7 @@ exports.up = function (knex) {
         .createTable('recipe', recipie => {
             recipie.increments()
             recipie.string('image', 255)
-            recipie.string('title', 255).notNullable().unique();
+            recipie.string('title', 255).notNullable();
             
             recipie.integer('sourceId').unsigned().notNullable()
                 .references('id')
