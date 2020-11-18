@@ -52,6 +52,7 @@ async function findCategories(id) {
 async function findById(id) {
 	const recipe = await db("recipe").where({ id }).first()
 	
+	try {
 	// get all the ingredients for the recipe
 	const ingredients = await findIngredients(id)
 			recipe['ingredients'] = ingredients // add the ingredient to the recipe
@@ -59,7 +60,9 @@ async function findById(id) {
 	// now find all the categories for each recipe using a helper function
 	const categories = await findCategories(id)
 	recipe['categories'] = categories // add the category to the recipe		
-	
+	}catch(err){
+		
+	}
 	return recipe 
 }
 
