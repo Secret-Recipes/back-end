@@ -12,7 +12,7 @@ function restrict() {
 			const token = req.cookies.token
 			if (!token) {
 				return res.status(401).json({
-					message: "no token detected",
+					message: "access denied, you can not creat a recipe unless you are logged in.",
 				})
       }
 
