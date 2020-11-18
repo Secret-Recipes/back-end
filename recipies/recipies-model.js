@@ -5,7 +5,7 @@ async function getAllRecipies() {
 		.innerJoin("users as u", "u.id", "r.sourceId")
 		.select("r.id", "r.image", "r.title", "u.username as source")
 
-		return recipies;
+	return recipies;
 }
 
 async function getAll() {
@@ -51,19 +51,19 @@ async function findCategories(id) {
 
 async function findById(id) {
 	const recipe = await db("recipe").where({ id }).first()
-	
-	try {
-	// get all the ingredients for the recipe
-	const ingredients = await findIngredients(id)
-			recipe['ingredients'] = ingredients // add the ingredient to the recipe
 
-	// now find all the categories for each recipe using a helper function
-	const categories = await findCategories(id)
-	recipe['categories'] = categories // add the category to the recipe		
-	}catch(err){
-		
+	try {
+		// get all the ingredients for the recipe
+		const ingredients = await findIngredients(id)
+		recipe['ingredients'] = ingredients // add the ingredient to the recipe
+
+		// now find all the categories for each recipe using a helper function
+		const categories = await findCategories(id)
+		recipe['categories'] = categories // add the category to the recipe		
+	} catch (err) {
+
 	}
-	return recipe 
+	return recipe
 }
 
 function findByRecipiname(recipiename) {
