@@ -87,7 +87,7 @@ function findByRecipiname(recipiename) {
 }*/
 
 async function addNewRecipe(data) {
-	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions }
+	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
 	const [id] = await db("recipe").insert(recipe, "id")
 
 	await addIngredients(id, data.ingredients)
