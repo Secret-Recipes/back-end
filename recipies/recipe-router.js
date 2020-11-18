@@ -29,7 +29,7 @@ router.get("/:id", async (req, res, next) => {
 	try {
 		const recipe = await Recipies.findById(req.params.id)
 		if(!recipe) {
-			res.status(404).json({message: "no list avalible"})
+			res.status(404).json({message: `There is no recipe with the id of ${req.params.id}`})
 		}
 				
 		res.status(200).json(recipe)
