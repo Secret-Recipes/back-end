@@ -93,6 +93,8 @@ async function addNewRecipe(data) {
 	await addIngredients(id, data.ingredients)
 
 	await addCategories(id, data.categories)
+
+	return recipe
 }
 
 async function addIngredients(id, data) {
