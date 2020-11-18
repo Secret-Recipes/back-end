@@ -43,7 +43,7 @@ router.post("/", restrict(), async (req, res, next) => {
 	const recipe = req.body
 	const newRecipe = await Recipies.addNewRecipe(recipe)
 
-	res.status(201).json(newRecipe)
+	res.status(201).json({message: "new recipe created", recipe: newRecipe})
 })
 
 module.exports = router;
