@@ -88,7 +88,7 @@ function findByRecipiname(recipiename) {
 
 async function addNewRecipe(data) {
 	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions }
-	const [id] = await db("recipe").insert(recipe)
+	const [id] = await db("recipe").insert(recipe, "id")
 
 	await addIngredients(id, data.ingredients)
 
@@ -104,7 +104,7 @@ async function addIngredients(id, data) {
 			name: ingredient.name
 		}
 
-		const [ing] = await db("ingredients").insert(ingr)
+		const [ing] = await db("ingredients").insert(ingr, "id")
 	});
 
 
@@ -120,7 +120,7 @@ async function addCategories(id, data) {
 			name: category.name
 		}
 
-		const [c] = await db("category").insert(cat)
+		const [c] = await db("category").insert(cat, "id")
 		//}
 	});
 }
