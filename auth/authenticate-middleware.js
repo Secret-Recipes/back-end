@@ -9,7 +9,7 @@ function restrict() {
   return async (req, res, next) => {
     try {
       // get the token value from a cookie, which is automatically sent from the client
-			const token = req.cookies.token
+			const token = req.headers.authorization
 			if (!token) {
 				return res.status(401).json({
 					message: "access denied, you can not add a recipe unless you are logged in.",
