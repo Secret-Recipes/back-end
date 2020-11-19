@@ -58,7 +58,8 @@ router.post('/login', async (req, res, next) => {
     res.cookie("token", token)
 
     res.status(200).json({
-      message: `Welcome ${user.username}`
+      message: `Welcome ${user.username}`,
+      token: token
     })
   } catch (error) {
     next(error)
