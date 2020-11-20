@@ -25,9 +25,10 @@ async function update(id, data) {
 }
 
 async function findUserRecipies(id) {
-	const recipies = await db("recipe as r").where("r.sourceId", id)
-		.innerJoin("users as u", "u.id", "r.sourceId")
-		.select("r.id", "r.image", "r.title", "u.username as source")
+	console.log(id)
+	const recipies = await db("recipe").where("sourceId", id)
+		.select("id", "image", "title")
+		
 
 	return recipies;
 }
