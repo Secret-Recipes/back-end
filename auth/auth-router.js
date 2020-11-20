@@ -73,7 +73,7 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/recipies/:id', restrict(), async (req, res, next) => {
   try {
-    const {id} = req.params.id
+    const [id] = req.params.id
 
     const user = await Users.findById(id)
     if(!user) {
@@ -82,10 +82,11 @@ router.get('/recipies/:id', restrict(), async (req, res, next) => {
       })
     }
 
-    const recipies = Users.findUserRecipies(id)
+    const recipies = await Users.findUserRecipies(id)
     res.status(200).json(recipies)
   } catch (error) {
     res.status(500).json({message: "Something bad happend in get all recipies"})
+    console.log(error)
   }
 })
 
