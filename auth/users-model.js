@@ -24,6 +24,14 @@ async function update(id, data) {
 	return findById(id)
 }
 
+async function findUserRecipies(id) {
+	const recipies = await db("recipe as r").where("r.sourceId", id)
+		.innerJoin("users as u", "u.id", "r.sourceId")
+		.select("r.id", "r.image", "r.title", "u.username as source")
+
+	return recipies;
+}
+
 function remove(id) {
 	return db("users").where({ id }).del()
 }
@@ -35,4 +43,5 @@ module.exports = {
 	create,
 	update,
 	remove,
+	findUserRecipies
 }

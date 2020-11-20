@@ -140,7 +140,13 @@ async function findCategoryByName(name) {
 		.first("c.id", "c.name")
 }
 
-async function update(id, data) {
+async function update(data, id) {
+	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
+	const [id] = await db("recipe").update(recipe).where("id", id)
+
+	
+
+
 	await db("recipies").where({ id }).update(data)
 	return findById(id)
 }
