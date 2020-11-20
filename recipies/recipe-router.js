@@ -49,9 +49,9 @@ router.post("/", restrict(), async (req, res, next) => {
 // only a user logged in can edit a recipe
 router.put("/:id", restrict(), async (req, res, next) => {
 	try {
-		const { id } = req.params.id
+		const  id  = req.params.id
 		const changes = req.body
-
+		
 		const recipe = await Recipies.findById(id)
 		if (recipe) {
 			const updatedRecipe = await Recipies.update(changes, id)
@@ -63,6 +63,7 @@ router.put("/:id", restrict(), async (req, res, next) => {
 		
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to update recipe' });
+		console.log(error)
 	}
 
 })
