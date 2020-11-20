@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const Users = require("../auth/users-model")
+const Users = require("../auth/users-model");
+const dbConfig = require('../database/dbConfig');
+
+const { restrict } = require("./authenticate-middleware")
 
 router.post('/signup',  async (req, res, next) => {
   // impliment register
@@ -67,5 +70,23 @@ router.post('/login', async (req, res, next) => {
     next(error)
   }
 });
+
+router.get('/recipies/:id', restrict(), async (req, res, next) => {
+  try {
+    const {id} = req.params.id
+
+    const user = await Users.findById(id)
+    if(!user) {
+      return res.status(401).json({
+        message: "Invalid user id"
+      })
+    }
+
+    const recipies = Users.findUserRecipies(id)
+    res.status(200).json(recipies)
+  } catch (error) {
+    res.status(500).json({message: "Something bad happend in get all recipies"})
+  }
+})
 
 module.exports = router;
