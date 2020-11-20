@@ -40,13 +40,13 @@ async function getAll() {
 async function findIngredients(id) {
 	return await db("ingredients")
 		.where("recipeId", id)
-		.select("name") // all we want is the description
+		.select("id", "name") // all we want is the description
 }
 
 async function findCategories(id) {
 	return await db("category")
 		.where("recipeId", id)
-		.select("name") // all we want is the name
+		.select("id", "name") // all we want is the name
 }
 
 async function findById(id) {
@@ -91,7 +91,7 @@ function findByRecipiname(recipiename) {
 
 async function addNewRecipe(data) {
 	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
-	const [id] = await db("recipe").insert(recipe, "id")
+	const id = await db("recipe").insert(recipe, "id")
 
 	await addIngredients(id, data.ingredients)
 
@@ -141,14 +141,96 @@ async function findCategoryByName(name) {
 }
 
 async function update(data, id) {
-	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
-	const {recipeId} = await db("recipe").update(recipe).where("id", id)
+	const changes = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
+	const recipeId = await db("recipe").update(changes).where("id", id)
 
-	
+	try {
+
+		await updateIngredients(recipeId, data.ingredients)
+
+		//console.log(data.categories)
+		await updateCategories(recipeId, data.categories)
+	} catch (error) {
+		console.log(error)
+	}
 
 
-	await db("recipies").where({ recipeId }).update(data)
+	//return changes
+	//await db("recipies").where({ recipeId }).update(data)
 	return findById(recipeId)
+}
+
+async function updateIngredients(id, data) {
+	data.forEach(async ingredient => {
+		if(ingredient.id){
+			ingr = await findIngredientById(ingredient.id)
+			if (ingr) {
+
+				try {
+					const [i] = await db("ingredients").update(ingredient).where("id", ingr.id)
+				} catch (error) {
+	
+				}
+			}
+		}else {
+			const ingr = {
+				recipeId: id,
+				name: ingredient.name
+			}
+
+			try {
+				const [i] = await db("ingredients").insert(ingr, "id")
+				
+			} catch (error) {
+
+			}
+
+		}
+
+	});
+
+}
+
+async function updateCategories(id, data) {
+	console.log(id)
+	data.forEach(async category => {
+
+		if(category.id){
+			cat = await findCategoryById(category.id)
+			if (cat) {
+
+				try {
+					const [c] = await db("category").update(category).where("id", cat.id)
+				} catch (error) {
+	
+				}
+			}
+		}else {
+			const cat = {
+				recipeId: id,
+				name: category.name
+			}
+
+			try {
+				const [c] = await db("category").insert(cat, "id")
+				console.log(`cateroty created ${cat}`)
+			} catch (error) {
+
+			}
+
+		}
+		
+	});
+}
+
+async function findCategoryById(id) {
+	const category = await db("category").where({ id }).first()
+	return category
+}
+
+async function findIngredientById(id) {
+	const ingredient = await db("ingredients").where({ id }).first()
+	return ingredient
 }
 
 function remove(id) {
