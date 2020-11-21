@@ -68,4 +68,103 @@ router.put("/:id", restrict(), async (req, res, next) => {
 
 })
 
+// only a user logged in can add a category to a recipe
+router.post("/c/:id", restrict(), async (req, res, next) =>{
+	try {
+		const id = req.params.id
+		const changes = req.body
+
+		//console.log(id)
+		//const category = await Recipies.findCategoryById(id)
+		//if(category) {
+		const addedCat = await Recipies.addCategory(id, changes)
+		res.status(201).json({message: "category added", category: addedCat})
+		//}else{
+		//	res.status(404).json({message : `couldn't find a category with id ${id}`})
+		//}
+	} catch (error) {
+		res.status(500).json({ message: 'Failed to add category' });
+		console.log(error)
+	}
+})
+
+// only a user logged in can update a category
+router.put("/c/:id", restrict(), async (req, res, next) =>{
+	try {
+		const id = req.params.id
+		const changes = req.body
+
+		console.log(id)
+		const category = await Recipies.findCategoryById(id)
+		if(category) {
+			const updatedCat = await Recipies.updateCategory(id, changes)
+			res.status(201).json({message: "category updated", category: updatedCat})
+		}else{
+			res.status(404).json({message : `couldn't find a category with id ${id}`})
+		}
+	} catch (error) {
+		res.status(500).json({ message: 'Failed to update category' });
+		console.log(error)
+	}
+})
+
+// only a user logged in can add an ingredient to a recipe
+router.post("/i/:id", restrict(), async (req, res, next) =>{
+	try {
+		const id = req.params.id
+		const changes = req.body
+
+		//console.log(id)
+		//const category = await Recipies.findCategoryById(id)
+		//if(category) {
+		const addedIngr = await Recipies.addIngredient(id, changes)
+		res.status(201).json({message: "ingredient added", ingredient: addedIngr})
+		//}else{
+		//	res.status(404).json({message : `couldn't find a category with id ${id}`})
+		//}
+	} catch (error) {
+		res.status(500).json({ message: 'Failed to add category' });
+		console.log(error)
+	}
+})
+
+// only a user logged in can update a ingredient
+router.put("/i/:id", restrict(), async (req, res, next) =>{
+	try {
+		const id = req.params.id
+		const changes = req.body
+		
+		const ingredient = await Recipies.findIngredientById(id)
+		if(ingredient) {
+			const updatedIngr = await Recipies.updateIngredient(id, changes)
+			res.status(201).json({message: "ingredient updated", ingredient: updatedIngr})
+		}else{
+			res.status(404).json({message : `couldn't find a ingredient with id ${id}`})
+		}
+	} catch (error) {
+		res.status(500).json({ message: 'Failed to update ingredient' });
+		console.log(error)
+	}
+})
+
+// only a user logged in can update the header part of the recipe
+// this part includes the image, title, and instructions
+router.put("/h/:id", restrict(), async (req, res, next) =>{
+	try {
+		const id = req.params.id
+		const changes = req.body
+		
+		const recipe = await Recipies.findById(id)
+		if(recipe) {
+			const updatedRec = await Recipies.updateRecipeHeader(id, changes)
+			res.status(201).json({message: "recipe updated", recipe: updatedRec})
+		}else{
+			res.status(404).json({message : `couldn't find a recipe with id ${id}`})
+		}
+	} catch (error) {
+		res.status(500).json({ message: 'Failed to update recipe' });
+		console.log(error)
+	}
+})
+
 module.exports = router;
