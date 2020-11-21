@@ -50,6 +50,7 @@ async function findCategories(id) {
 }
 
 async function findById(id) {
+	// find the recipe for the id provided
 	const recipe = await db("recipe").where({ id }).first()
 
 	try {
@@ -72,61 +73,59 @@ function findByRecipiname(recipiename) {
 		.first("r.id", "r.recipiename")
 }
 
-/*async function create(data) {
-	console.log(data)
-
-	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions }
-	const [id] = await db("recipe").insert(recipe)
-
-	data.ingredients.recipeId = id
-	const [ingredients] = data.ingredients
-	const [ing] = await db("ingredients").insert(ingredients)
-
-	data.categories.recipeId = id
-	const [categories] = data.categories
-	const [cat] = await db("category").insert(categories)
-	return findById(id)
-
-}*/
-
 async function addNewRecipe(data) {
 	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
 	const id = await db("recipe").insert(recipe, "id")
 
-	await addIngredients(id, data.ingredients)
+	try {
+		// grab all the ingredients from the data/body and add them to the recipe
+		await addIngredients(id, data.ingredients)
 
-	await addCategories(id, data.categories)
+		// grab all the categories from the data/body and add them to the recipe
+		await addCategories(id, data.categories)
+	} catch (error) {
+
+	}
+
 
 	return recipe
 }
 
 async function addIngredients(id, data) {
+	// loop through all the ingredients 
 	data.forEach(async ingredient => {
 		console.log(ingredient)
 
+		// build the object
 		const ingr = {
 			recipeId: id,
 			name: ingredient.name
 		}
 
-		const [ing] = await db("ingredients").insert(ingr, "id")
+
+		// add it to the DB
+		const ing = await db("ingredients").insert(ingr, "id")
+
 	});
 
+	return data
 
 }
 
 async function addCategories(id, data) {
+	// loop through all the categories 
 	data.forEach(async category => {
 		console.log(category)
 
-		//if (!findCategoryByName(category)) {
+		// build the object
 		const cat = {
 			recipeId: id,
 			name: category.name
 		}
 
-		const [c] = await db("category").insert(cat, "id")
-		//}
+		// add it to the DB
+		const c = await db("category").insert(cat, "id")
+
 	});
 }
 
@@ -141,38 +140,37 @@ async function findCategoryByName(name) {
 }
 
 async function update(data, id) {
+	// update the recipe with the changes provided
 	const changes = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
 	const recipeId = await db("recipe").update(changes).where("id", id)
 
 	try {
-
+		// update ingedients and categories as needed, add any new ones.
 		await updateIngredients(recipeId, data.ingredients)
-
-		//console.log(data.categories)
 		await updateCategories(recipeId, data.categories)
 	} catch (error) {
 		console.log(error)
 	}
 
-
-	//return changes
-	//await db("recipies").where({ recipeId }).update(data)
 	return findById(recipeId)
 }
 
 async function updateIngredients(id, data) {
+	// loop over all the ingredients
 	data.forEach(async ingredient => {
-		if(ingredient.id){
+		if (ingredient.id) {
 			ingr = await findIngredientById(ingredient.id)
 			if (ingr) {
-
+				// if the ingredient exits try to update it
 				try {
 					const [i] = await db("ingredients").update(ingredient).where("id", ingr.id)
 				} catch (error) {
-	
+
 				}
 			}
-		}else {
+		} else {
+			// if the ingredient does not exist build a new object and add it to the DB
+
 			const ingr = {
 				recipeId: id,
 				name: ingredient.name
@@ -180,7 +178,7 @@ async function updateIngredients(id, data) {
 
 			try {
 				const [i] = await db("ingredients").insert(ingr, "id")
-				
+
 			} catch (error) {
 
 			}
@@ -192,20 +190,21 @@ async function updateIngredients(id, data) {
 }
 
 async function updateCategories(id, data) {
-	console.log(id)
+	// loop over all the categories
 	data.forEach(async category => {
-
-		if(category.id){
+		if (category.id) {
 			cat = await findCategoryById(category.id)
 			if (cat) {
-
+				// if the category exits try to update it
 				try {
 					const [c] = await db("category").update(category).where("id", cat.id)
 				} catch (error) {
-	
+
 				}
 			}
-		}else {
+		} else {
+			// if the category does not exist build a new object and add it to the DB
+
 			const cat = {
 				recipeId: id,
 				name: category.name
@@ -219,8 +218,66 @@ async function updateCategories(id, data) {
 			}
 
 		}
-		
+
 	});
+}
+
+async function updateCategory(id, data) {
+	const cat = await findCategoryById(id)
+
+	if (cat) {
+		return await db("category").update(data).where("id", id)
+	}
+}
+
+async function updateIngredient(id, data) {
+	const ingr = await findIngredientById(id)
+
+	if (ingr) {
+		return await db("ingredients").update(data).where("id", id)
+	}
+}
+
+async function addCategory(recipeId, data) {
+	const recipe = await findById(recipeId)
+	if (recipe) {
+		const cat = {
+			recipeId: recipeId,
+			name: data.name
+		}
+
+		try {
+			const [c] = await db("category").insert(cat, "id")
+
+		} catch (error) {
+
+		}
+	}
+}
+
+async function addIngredient(recipeId, data) {
+	const recipe = await findById(recipeId)
+	if (recipe) {
+		const ingr = {
+			recipeId: recipeId,
+			name: data.name
+		}
+
+		try {
+			const [c] = await db("ingredients").insert(ingr, "id")
+
+		} catch (error) {
+
+		}
+	}
+}
+
+async function updateRecipeHeader(recipeId, data) {
+	const recipe = await findById(recipeId)
+
+	if (recipe) {
+		return await db("recipe").update(data).where("id", recipeId)
+	}
 }
 
 async function findCategoryById(id) {
@@ -243,48 +300,13 @@ module.exports = {
 	update,
 	remove,
 	addNewRecipe,
-	getAllRecipies
+	getAllRecipies,
+	updateCategory,
+	findCategoryById,
+	findIngredientById,
+	updateIngredient,
+	updateRecipeHeader,
+	addCategory,
+	addIngredient
 }
 
-//console.log(recipies)
-
-/*recipies.forEach(async recipe =>  {
-	const ingredients = await findIngredients(recipe.id)
-	recipe['ingredients'] = ingredients
-	//console.log(recipe)
-});
-
-recipies.forEach(async recipe =>  {
-	const categories = await findIngredients(recipe.id)
-	recipe['categories'] = categories
-
-	console.log(recipe)
-});*/
-
-
-/*const ingredients = await db('ingredients as i')
-	//.join('ingredients', 'ingredients.recipeId', 'r.id')
-	.select("i.description")
-	.where('i.recipeId', recipies.id)*/
-
-/*const categories = await db('category as c')
-	//.join('ingredients', 'ingredients.recipeId', 'r.id')
-	.select("c.name")
-	.where('c.recipeId', recipies.id)*/
-
-
-	//recipies['ingredients'] = ingredients;
-
-	//recipies['ingredients'] = ingredients;
-
-	// loop over all the recipies, this seems why to inefficient. Has to be a way
-		// to work this into a few joins what if I had a million recipies	
-/*for (r = 0; r < recipies.length - 1; r++) {
-	// now find all the ingredients for each recipe using a helper function
-	const ingredients = await findIngredients(recipies[r].id)
-	recipies[r]['ingredients'] = ingredients // add the ingredient to the recipe
-
-	// now find all the categories for each recipe using a helper function
-	const categories = await findCategories(recipies[r].id)
-	recipies[r]['categories'] = categories // add the category to the recipe
-}*/
