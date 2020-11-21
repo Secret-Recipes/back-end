@@ -4,12 +4,12 @@
 # Routes
 | Method | Location               | Result                                             | Restricted  | Object Type |
 |--------|------------------------|----------------------------------------------------|-------------|-------------|
-| GET    | /                      | sends a welcome msg                                | no          |A
+| GET    | /                      | sends a welcome msg                                | no          |
 | GET    | /api/recipies          | gets a list of all  recipies                       | no          |
 | GET    | /api/recipies/:id      | gets a recipe by the given id                      | no          |
 | GET    | /api/auth/recipies/:id | gets all user recipes                              | yes         |
 |--------|------------------------|----------------------------------------------------|-------------|
-| POST   | api/auth/login         | user login                                         | no          |
+| POST   | api/auth/login         | user login                                         | no          |A
 | POST   | api/auth/signup        | user signup                                        | no          |
 | POST   | api/recipies           | adds new recipe                                    | yes         |
 | POST   | api/recipies/c/:id     | adds a new category                                | yes         |
@@ -28,4 +28,4 @@
 # Objects
 | Type   | data                                                             |       
 |--------|------------------------------------------------------------------|
-| A      | {"username": "johndoe", "password": "abc12345"}                    |
+| A      | {"username": "johndoe", "password": "abc12345"}                  |
