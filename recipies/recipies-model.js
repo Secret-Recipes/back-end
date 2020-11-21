@@ -75,6 +75,7 @@ async function addNewRecipe(data) {
 	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
 
 	const [id] = await db("recipe").insert(recipe, "id")
+	console.log(id)
 
 	// grab all the ingredients from the data/body and add them to the recipe
 	await addIngredients(id, data.ingredients)
@@ -90,7 +91,7 @@ async function addIngredients(id, data) {
 	return Promise.all(data.map(async ingredient => {
 		// build the object
 		const ingr = {
-			recipeId: id,
+			recipeId: parseInt(id),
 			name: ingredient.name
 		}
 
@@ -124,7 +125,7 @@ async function addCategories(id, data) {
 	return Promise.all(data.map(async category =>{
 		// build the object
 		const cat = {
-			recipeId: id,
+			recipeId: parseInt(id),
 			name: category.name
 		}
 
