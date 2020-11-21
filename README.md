@@ -26,9 +26,9 @@
 
 
 # Objects
-| Type   | data                      |       
+| Type   | data                       |       
 |--------|-------------------------- |
 | A      | {
 	         "username": "johndoe",
 	         "password": "abc12345"
-            }       
+            }   |    
