@@ -10,7 +10,7 @@
 | GET    | /api/auth/recipies/:id | gets all user recipes                              | yes         |
 |--------|------------------------|----------------------------------------------------|-------------|
 | POST   | api/auth/login         | user login                                         | no          |A
-| POST   | api/auth/signup        | user signup                                        | no          |
+| POST   | api/auth/signup        | user signup                                        | no          |B
 | POST   | api/recipies           | adds new recipe                                    | yes         |
 | POST   | api/recipies/c/:id     | adds a new category                                | yes         |
 |        |                        | to the given recipe id                             |             |  
@@ -29,5 +29,5 @@
 | Type   | data                                                                                     |       
 |--------|------------------------------------------------------------------------------------------|
 | A      | {"username": "johndoe", "password": "abc12345"}                                          |
-| B      | {"username": "Dylan", "email": "dylan@yaho.com", "password": "jacob123"                  |
-}                  |
+| B      | {"username": "Dylan", "email": "dylan@yaho.com", "password": "jacob123"}                 |
+                  |
