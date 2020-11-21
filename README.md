@@ -12,7 +12,7 @@
 | POST   | api/auth/login         | user login                                         | no          |A
 | POST   | api/auth/signup        | user signup                                        | no          |B
 | POST   | api/recipies           | adds new recipe                                    | yes         |
-| POST   | api/recipies/c/:id     | adds a new category                                | yes         |
+| POST   | api/recipies/c/:id     | adds a new category                                | yes         |C
 |        |                        | to the given recipe id                             |             |  
 | POST   | api/recipies/i/:id     | adds a new ingredient                              | yes         |
 |        |                        | to the given recipe id                             |             |
@@ -30,4 +30,5 @@
 |--------|------------------------------------------------------------------------------------------|
 | A      | {"username": "johndoe", "password": "abc12345"}                                          |
 | B      | {"username": "Dylan", "email": "dylan@yaho.com", "password": "jacob123"}                 |
+| C      | {"name": "hello world"                 |
                   
