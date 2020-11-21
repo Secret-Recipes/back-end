@@ -30,5 +30,5 @@
 |--------|------------------------------------------------------------------------------------------|
 | A      | {"username": "johndoe", "password": "abc12345"}                                          |
 | B      | {"username": "Dylan", "email": "dylan@yaho.com", "password": "jacob123"}                 |
-| C      | {"name": "hello world"                 |
+| C      | {"name": "hello world"}                 |
                   
