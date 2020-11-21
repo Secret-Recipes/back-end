@@ -74,7 +74,7 @@ function findByRecipiname(recipiename) {
 async function addNewRecipe(data) {
 	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
 
-	const id = await db("recipe").insert(recipe, "id")
+	const [id] = await db("recipe").insert(recipe, "id")
 
 	// grab all the ingredients from the data/body and add them to the recipe
 	await addIngredients(id, data.ingredients)
