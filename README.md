@@ -2,9 +2,9 @@
 
 
 # Routes
-| Method | Location               | Result                                             | Restricted  |
-|--------|------------------------|----------------------------------------------------|-------------|
-| GET    | /                      | sends a welcome msg                                | no          |
+| Method | Location               | Result                                             | Restricted  | Object Type |
+|--------|------------------------|----------------------------------------------------|-------------|-------------|
+| GET    | /                      | sends a welcome msg                                | no          |A
 | GET    | /api/recipies          | gets a list of all  recipies                       | no          |
 | GET    | /api/recipies/:id      | gets a recipe by the given id                      | no          |
 | GET    | /api/auth/recipies/:id | gets all user recipes                              | yes         |
@@ -21,3 +21,14 @@
 | PUT    | /api/recipies/c/:id    | updates the category with the given id             | yes         |
 | PUT    | /api/recipies/i/:id    | updates the ingredients with the given id          | yes         |
 | PUT    | /api/recipies/h/:id    | updates the header of the recipe with the given id | yes         |
+
+
+
+
+# Objects
+| Type   | data                      |       
+|--------|-------------------------- |
+| A      | {
+	         "username": "johndoe",
+	         "password": "abc12345"
+            }       
