@@ -26,6 +26,8 @@
 
 
 # Objects
-| Type   | data                                                             |       
-|--------|------------------------------------------------------------------|
-| A      | {"username": "johndoe", "password": "abc12345"}                  |
+| Type   | data                                                                                     |       
+|--------|------------------------------------------------------------------------------------------|
+| A      | {"username": "johndoe", "password": "abc12345"}                                          |
+| B      | {"username": "Dylan", "email": "dylan@yaho.com", "password": "jacob123"                  |
+}                  |
