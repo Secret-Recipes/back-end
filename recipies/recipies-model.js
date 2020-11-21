@@ -53,17 +53,15 @@ async function findById(id) {
 	// find the recipe for the id provided
 	const recipe = await db("recipe").where({ id }).first()
 
-	try {
-		// get all the ingredients for the recipe
-		const ingredients = await findIngredients(id)
-		recipe['ingredients'] = ingredients // add the ingredient to the recipe
 
-		// now find all the categories for each recipe using a helper function
-		const categories = await findCategories(id)
-		recipe['categories'] = categories // add the category to the recipe		
-	} catch (err) {
+	// get all the ingredients for the recipe
+	const ingredients = await findIngredients(id)
+	recipe['ingredients'] = ingredients // add the ingredient to the recipe
 
-	}
+	// now find all the categories for each recipe using a helper function
+	const categories = await findCategories(id)
+	recipe['categories'] = categories // add the category to the recipe		
+
 	return recipe
 }
 
@@ -75,18 +73,14 @@ function findByRecipiname(recipiename) {
 
 async function addNewRecipe(data) {
 	const recipe = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
+
 	const id = await db("recipe").insert(recipe, "id")
 
-	try {
-		// grab all the ingredients from the data/body and add them to the recipe
-		await addIngredients(id, data.ingredients)
+	// grab all the ingredients from the data/body and add them to the recipe
+	addIngredients(id, data.ingredients)
 
-		// grab all the categories from the data/body and add them to the recipe
-		await addCategories(id, data.categories)
-	} catch (error) {
-
-	}
-
+	// grab all the categories from the data/body and add them to the recipe
+	addCategories(id, data.categories)
 
 	return recipe
 }
@@ -108,7 +102,7 @@ async function addIngredients(id, data) {
 
 	});
 
-	return data
+
 
 }
 
@@ -144,13 +138,10 @@ async function update(data, id) {
 	const changes = { title: data.title, sourceId: data.sourceId, instructions: data.instructions, image: data.image }
 	const recipeId = await db("recipe").update(changes).where("id", id)
 
-	try {
-		// update ingedients and categories as needed, add any new ones.
-		await updateIngredients(recipeId, data.ingredients)
-		await updateCategories(recipeId, data.categories)
-	} catch (error) {
-		console.log(error)
-	}
+	// update ingedients and categories as needed, add any new ones.
+	await updateIngredients(recipeId, data.ingredients)
+	await updateCategories(recipeId, data.categories)
+
 
 	return findById(recipeId)
 }
@@ -176,12 +167,7 @@ async function updateIngredients(id, data) {
 				name: ingredient.name
 			}
 
-			try {
-				const [i] = await db("ingredients").insert(ingr, "id")
-
-			} catch (error) {
-
-			}
+			const [i] = await db("ingredients").insert(ingr, "id")
 
 		}
 
@@ -196,11 +182,8 @@ async function updateCategories(id, data) {
 			cat = await findCategoryById(category.id)
 			if (cat) {
 				// if the category exits try to update it
-				try {
-					const [c] = await db("category").update(category).where("id", cat.id)
-				} catch (error) {
+				const [c] = await db("category").update(category).where("id", cat.id)
 
-				}
 			}
 		} else {
 			// if the category does not exist build a new object and add it to the DB
@@ -210,12 +193,9 @@ async function updateCategories(id, data) {
 				name: category.name
 			}
 
-			try {
-				const [c] = await db("category").insert(cat, "id")
-				console.log(`cateroty created ${cat}`)
-			} catch (error) {
+			const [c] = await db("category").insert(cat, "id")
+			console.log(`cateroty created ${cat}`)
 
-			}
 
 		}
 
@@ -246,12 +226,9 @@ async function addCategory(recipeId, data) {
 			name: data.name
 		}
 
-		try {
-			const [c] = await db("category").insert(cat, "id")
+		const [c] = await db("category").insert(cat, "id")
 
-		} catch (error) {
 
-		}
 	}
 }
 
@@ -263,12 +240,9 @@ async function addIngredient(recipeId, data) {
 			name: data.name
 		}
 
-		try {
-			const [c] = await db("ingredients").insert(ingr, "id")
+		const [c] = await db("ingredients").insert(ingr, "id")
 
-		} catch (error) {
 
-		}
 	}
 }
 
