@@ -77,17 +77,30 @@ async function addNewRecipe(data) {
 	const id = await db("recipe").insert(recipe, "id")
 
 	// grab all the ingredients from the data/body and add them to the recipe
-	addIngredients(id, data.ingredients)
+	await addIngredients(id, data.ingredients)
 
 	// grab all the categories from the data/body and add them to the recipe
-	addCategories(id, data.categories)
+	await addCategories(id, data.categories)
 
 	return recipe
 }
 
 async function addIngredients(id, data) {
 	// loop through all the ingredients 
-	data.forEach(async ingredient => {
+	return Promise.all(data.map(async ingredient => {
+		// build the object
+		const ingr = {
+			recipeId: id,
+			name: ingredient.name
+		}
+
+
+		// add it to the DB
+		const ing = await db("ingredients").insert(ingr, "id")
+	}))
+
+
+	/*data.forEach(async ingredient => {
 		console.log(ingredient)
 
 		// build the object
@@ -100,7 +113,7 @@ async function addIngredients(id, data) {
 		// add it to the DB
 		const ing = await db("ingredients").insert(ingr, "id")
 
-	});
+	});*/
 
 
 
@@ -108,7 +121,18 @@ async function addIngredients(id, data) {
 
 async function addCategories(id, data) {
 	// loop through all the categories 
-	data.forEach(async category => {
+	return Promise.all(data.map(async category =>{
+		// build the object
+		const cat = {
+			recipeId: id,
+			name: category.name
+		}
+
+		// add it to the DB
+		const c = await db("category").insert(cat, "id")
+	}))
+
+	/*data.forEach(async category => {
 		console.log(category)
 
 		// build the object
@@ -120,7 +144,7 @@ async function addCategories(id, data) {
 		// add it to the DB
 		const c = await db("category").insert(cat, "id")
 
-	});
+	});*/
 }
 
 async function checkCategoryName(name) {
