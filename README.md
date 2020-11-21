@@ -28,4 +28,4 @@
 # Objects
 | Type   | data                                                              |       
 |--------|------ ------------------------------------------------------------|
-| A      | {"username": "johndoe", "password": "abc12345"}                   |
+| A      | "username": "johndoe", "password": "abc12345"                   |
