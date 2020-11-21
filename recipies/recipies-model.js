@@ -125,7 +125,7 @@ async function addCategories(id, data) {
 	return Promise.all(data.map(async category =>{
 		// build the object
 		const cat = {
-			recipeId: iparseInt(id),
+			recipeId: parseInt(id),
 			name: category.name
 		}
 
