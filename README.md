@@ -14,7 +14,7 @@
 | POST   | api/recipies           | adds new recipe                                    | yes         |
 | POST   | api/recipies/c/:id     | adds a new category                                | yes         |C
 |        |                        | to the given recipe id                             |             |  
-| POST   | api/recipies/i/:id     | adds a new ingredient                              | yes         |
+| POST   | api/recipies/i/:id     | adds a new ingredient                              | yes         |C
 |        |                        | to the given recipe id                             |             |
 |--------|------------------------|----------------------------------------------------|-------------|
 | PUT    | api/recipies/:id       | updates the recipe with the given id               | yes         |
